@@ -35,11 +35,14 @@
             'modal': '0 40px 100px rgba(0,0,0,0.4)',
             'btn': '0 8px 25px rgba(30, 64, 175, 0.3)',
             'feature': '0 15px 35px rgba(0,0,0,0.08)',
+            'pulse': '0 0 0 0 rgba(30, 64, 175, 0.4)',
           },
           animation: {
             'float': 'float 6s ease-in-out infinite',
             'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
             'text-reveal': 'textReveal 1.5s ease-out forwards',
+            'toggle-glow': 'toggleGlow 1.5s ease-in-out infinite',
+            'pulse-ring': 'pulseRing 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
           },
           keyframes: {
             float: {
@@ -49,6 +52,14 @@
             textReveal: {
               '0%': { opacity: 0, transform: 'translateY(30px)' },
               '100%': { opacity: 1, transform: 'translateY(0)' }
+            },
+            toggleGlow: {
+              '0%, 100%': { boxShadow: '0 0 20px rgba(30, 64, 175, 0.4)' },
+              '50%': { boxShadow: '0 0 30px rgba(30, 64, 175, 0.6)' }
+            },
+            pulseRing: {
+              '0%': { transform: 'scale(0.8)', opacity: 1 },
+              '70%, 100%': { transform: 'scale(1.6)', opacity: 0 }
             }
           }
         }
@@ -100,7 +111,63 @@
       pointer-events: none;
     }
 
-    /* Phone Mockup */
+    /* LOGO */
+    .logo-img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+
+    /* HAMBURGER – ESTETIK */
+    .hamburger {
+      position: relative;
+      display: none;
+      width: 44px;
+      height: 44px;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 50;
+      border-radius: 50%;
+      background: rgba(30, 64, 175, 0.08);
+      transition: all 0.3s ease;
+      padding: 8px;
+    }
+    .hamburger:hover {
+      background: rgba(30, 64, 175, 0.15);
+      transform: scale(1.05);
+    }
+    .hamburger span {
+      position: absolute;
+      width: 22px;
+      height: 2.5px;
+      background: #1E40AF;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      transform-origin: center;
+    }
+    .hamburger span:nth-child(1) { top: 16px; }
+    .hamburger span:nth-child(2) { top: 21px; }
+    .hamburger span:nth-child(3) { top: 26px; }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(4px, 4px);
+      top: 21px;
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+      top: 21px;
+    }
+
+    @media (max-width: 767px) {
+      .hamburger { display: flex; }
+    }
+
+    /* PHONE MOCKUP + INTERACTIVE HINT */
     .phone-mockup {
       position: relative;
       width: 300px;
@@ -109,7 +176,24 @@
       border-radius: 44px;
       padding: 14px;
       box-shadow: var(--tw-shadow-phone);
-      transform-style: preserve-3d;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+    .phone-mockup::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(30,64,175,0.1), rgba(29,78,216,0.05));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1;
+    }
+    .phone-mockup:hover::before {
+      opacity: 1;
+    }
+    .phone-mockup:hover {
+      transform: translateY(-12px) scale(1.02);
     }
     .phone-screen {
       width: 100%;
@@ -131,7 +215,57 @@
       z-index: 10;
     }
 
-    /* PREVIEW MODAL: FULLSCREEN, TANPA BINGKAI HP */
+    /* CLICK HINT */
+    .click-hint {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(30, 64, 175, 0.95);
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 20px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      z-index: 20;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .click-hint::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 8px solid rgba(30, 64, 175, 0.95);
+    }
+    .phone-mockup:hover .click-hint {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-8px);
+    }
+
+    /* PULSE RING */
+    .pulse-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 40px;
+      height: 40px;
+      background: rgba(30, 64, 175, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      animation: pulseRing 2s infinite;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* PREVIEW MODAL */
     .preview-modal {
       display: none;
       position: fixed;
@@ -146,13 +280,13 @@
     .preview-iframe-container {
       position: relative;
       width: 100%;
-      max-width: 420px; /* Lebar maksimal seperti HP */
+      max-width: 420px;
       margin: 0 auto;
       background: #fff;
       border-radius: 2.5rem;
       overflow: hidden;
       box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-      aspect-ratio: 9 / 19.5; /* Rasio HP modern */
+      aspect-ratio: 9 / 19.5;
     }
     @media (min-width: 768px) {
       .preview-iframe-container {
@@ -190,47 +324,48 @@
       transform: scale(1.1);
     }
 
-    /* Hamburger */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      width: 30px;
-      height: 24px;
+    /* Toggle Switch */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 70px;
+      height: 36px;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
       cursor: pointer;
-      z-index: 50;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #cbd5e1;
+      transition: .4s;
+      border-radius: 36px;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
     }
-    .hamburger span {
-      height: 3px;
-      width: 100%;
-      background: #1E40AF;
-      border-radius: 10px;
-      transition: all 0.3s ease;
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 28px;
+      width: 28px;
+      left: 4px;
+      bottom: 4px;
+      background: white;
+      transition: .4s;
+      border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
-    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, -2px); }
-    .hamburger.active span:nth-child(2) { opacity: 0; }
-    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, 3px); }
-
-    @media (max-width: 767px) {
-      .hamburger { display: flex; }
-      .nav-links { display: none; }
-      .nav-links.active {
-        display: flex;
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(12px);
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        z-index: 40;
-      }
-      .nav-links a {
-        font-size: 1.75rem;
-        margin: 1.5rem 0;
-        font-weight: 600;
-      }
+    input:checked + .slider {
+      background: linear-gradient(135deg, #1E40AF, #1D4ED8);
+      animation: toggle-glow 1.5s ease-in-out infinite;
     }
+    input:checked + .slider:before {
+      transform: translateX(34px);
+    }
+    .slider.round { border-radius: 36px; }
+    .slider.round:before { border-radius: 50%; }
 
     /* Feature Icon */
     .feature-icon {
@@ -297,17 +432,18 @@
   <header class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md z-40 border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
       <div class="flex items-center space-x-3">
-        <div class="w-9 h-9 bg-gradient-to-br from-primary to-accent rounded-full"></div>
+        <img src="asset/e.png" alt="E-vite Works Logo" class="logo-img">
         <span class="text-2xl font-display text-dark">E-vite Works</span>
       </div>
 
       <nav class="nav-links hidden md:flex space-x-10">
-        <a href="#features" class="text-gray-700 hover:text-primary fontClicked-medium transition">Fitur</a>
-        <a href="#templates" class="text-gray-700 hover:text-primary font-medium transition">Template</a>
+        <a href="#phone-section" class="text-gray-700 hover:text-primary font-medium transition">Preview</a>
+        <a href="#features" class="text-gray-700 hover:text-primary font-medium transition">Fitur</a>
         <a href="#testimonials" class="text-gray-700 hover:text-primary font-medium transition">Testimoni</a>
         <a href="#pricing" class="text-primary font-bold hover:text-accent transition">Harga</a>
       </nav>
 
+      <!-- HAMBURGER ESTETIK -->
       <div class="hamburger" id="hamburger">
         <span></span>
         <span></span>
@@ -316,11 +452,11 @@
     </div>
   </header>
 
-  <nav class="nav-links fixed inset-0 z-40 items-center justify-center hidden">
-    <a href="#features" class="text-gray-800 hover:text-primary">Fitur</a>
-    <a href="#templates" class="text-gray-800 hover:text-primary">Template</a>
-    <a href="#testimonials" class="text-gray-800 hover:text-primary">Testimoni</a>
-    <a href="#pricing" class="text-primary hover:text-accent">Harga</a>
+  <nav class="nav-links fixed inset-0 z-40 items-center justify-center hidden bg-white/98 backdrop-blur-xl">
+    <a href="#phone-section" class="text-gray-800 hover:text-primary text-2xl font-medium mb-8">Preview</a>
+    <a href="#features" class="text-gray-800 hover:text-primary text-2xl font-medium mb-8">Fitur</a>
+    <a href="#testimonials" class="text-gray-800 hover:text-primary text-2xl font-medium mb-8">Testimoni</a>
+    <a href="#pricing" class="text-primary hover:text-accent text-2xl font-bold">Harga</a>
   </nav>
 
   <!-- HERO -->
@@ -334,8 +470,8 @@
         Dari <strong>E-vite Works</strong> — Ciptakan momen tak terlupakan dengan undangan digital yang indah, responsif, dan mudah dibagikan.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="#templates" class="inline-block bg-gradient-to-r from-primary to-accent text-white font-bold text-lg px-10 py-5 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
-          Lihat Template
+        <a href="#phone-section" class="inline-block bg-gradient-to-r from-primary to-accent text-white font-bold text-lg px-10 py-5 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+          Lihat Preview
         </a>
         <a href="#pricing" class="inline-block bg-white text-primary border-2 border-primary font-bold text-lg px-10 py-5 rounded-full hover:bg-primary hover:text-white transition-all duration-300">
           Lihat Harga
@@ -345,7 +481,7 @@
     <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent"></div>
   </section>
 
-  <!-- CONTOH DI HP -->
+  <!-- PREVIEW DI HP + INTERAKTIF -->
   <section id="phone-section" class="py-32 px-6 relative">
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-20">
@@ -353,35 +489,46 @@
           Lihat di Ponsel Anda
         </h2>
         <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">
-          Desain responsif sempurna. Tamu buka langsung dari WhatsApp, tanpa aplikasi.
+          Klik template untuk melihat preview langsung di layar ponsel.
         </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-16 max-w-6xl mx-auto">
-        <div class="phone-wrapper" data-aos="fade-up" data-aos-delay="0">
-          <div class="phone-mockup mx-auto animate-float">
+        <!-- Template 1 -->
+        <div class="phone-wrapper relative" data-aos="fade-up" data-aos-delay="0">
+          <div class="phone-mockup mx-auto animate-float" onclick="openPreview(1)">
             <div class="phone-notch"></div>
             <div class="phone-screen">
-              <img src="asset/gambar1.jpg" alt="Aurora" class="w-full h-full object-cover">
+              <img src="asset/gambar1.jpg" alt="Golden Luxe" class="w-full h-full object-cover">
             </div>
-          </div>
-          <p class="text-center mt-8 text-lg font-medium text-gray-700">Aurora</p>
-        </div>
-        <div class="phone-wrapper" data-aos="fade-up" data-aos-delay="200">
-          <div class="phone-mockup mx-auto animate-float" style="animation-delay: 0.5s;">
-            <div class="phone-notch"></div>
-            <div class="phone-screen">
-              <img src="asset/gambar2.jpg" alt="Golden Luxe" class="w-full h-full object-cover">
-            </div>
+            <div class="pulse-ring"></div>
+            <div class="click-hint">Klik untuk Preview</div>
           </div>
           <p class="text-center mt-8 text-lg font-medium text-gray-700">Golden Luxe</p>
         </div>
-        <div class="phone-wrapper" data-aos="fade-up" data-aos-delay="400">
-          <div class="phone-mockup mx-auto animate-float" style="animation-delay: 1s;">
+
+        <!-- Template 2 -->
+        <div class="phone-wrapper relative" data-aos="fade-up" data-aos-delay="200">
+          <div class="phone-mockup mx-auto animate-float" style="animation-delay: 0.5s;" onclick="openPreview(2)">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <img src="asset/gambar2.jpg" alt="Clasicc" class="w-full h-full object-cover">
+            </div>
+            <div class="pulse-ring"></div>
+            <div class="click-hint">Klik untuk Preview</div>
+          </div>
+          <p class="text-center mt-8 text-lg font-medium text-gray-700">Clasicc</p>
+        </div>
+
+        <!-- Template 3 -->
+        <div class="phone-wrapper relative" data-aos="fade-up" data-aos-delay="400">
+          <div class="phone-mockup mx-auto animate-float" style="animation-delay: 1s;" onclick="openPreview(3)">
             <div class="phone-notch"></div>
             <div class="phone-screen">
               <img src="asset/gambar3.jpg" alt="Minimal Bloom" class="w-full h-full object-cover">
             </div>
+            <div class="pulse-ring"></div>
+            <div class="click-hint">Klik untuk Preview</div>
           </div>
           <p class="text-center mt-8 text-lg font-medium text-gray-700">Minimal Bloom</p>
         </div>
@@ -427,21 +574,6 @@
     </div>
   </section>
 
-  <!-- TEMPLATES -->
-  <section id="templates" class="py-32 px-6">
-    <div class="max-w-7xl mx-auto">
-      <div class="text-center mb-20">
-        <h2 class="text-4xl md:text-6xl font-display text-dark mb-6" data-aos="fade-up">
-          Pilih Template Impianmu
-        </h2>
-        <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">
-          Setiap template dirancang dengan detail, elegan, dan siap pakai.
-        </p>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto" id="template-grid"></div>
-    </div>
-  </section>
-
   <!-- TESTIMONI -->
   <section id="testimonials" class="py-32 px-6 bg-gradient-to-b from-light to-white">
     <div class="max-w-7xl mx-auto">
@@ -465,7 +597,7 @@
           <p class="text-gray-700 mb-6 italic">"Fitur RSVP sangat membantu. Semua tamu konfirmasi otomatis. Hemat waktu!"</p>
           <div class="flex items-center">
             <div class="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-full"></div>
-            <div class="ml A-3">
+            <div class="ml-3">
               <p class="font-semibold text-dark">Aditya & Maya</p>
               <p class="text-sm text-gray-500">Resepsi, Bali</p>
             </div>
@@ -485,7 +617,7 @@
     </div>
   </section>
 
-  <!-- PREVIEW MODAL: FULLSCREEN, RESPONSIF -->
+  <!-- PREVIEW MODAL -->
   <div id="preview-modal" class="preview-modal">
     <div class="preview-close" id="close-preview">×</div>
     <div class="preview-iframe-container">
@@ -558,7 +690,7 @@
   <div class="fixed bottom-0 left-0 right-0 bg-white shadow-2xl border-t border-gray-200 p-5 z-50">
     <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <p class="text-gray-800 font-medium text-center sm:text-left">Siap buat undangan impianmu?</p>
-      <a href="https://wa.me/628123456789?text=Halo%20E-vite%20Works,%20saya%20mau%20pesan%20undangan%20digital" class="bg-green-500 text-white font-bold px-8 py-3 rounded-full text-lg hover:bg-green-600 transition shadow-lg transform hover:scale-105">
+      <a href="https://wa.me/6285712432595?text=Halo%20E-vite%20Works,%20saya%20mau%20pesan%20undangan%20digital" class="bg-green-500 text-white font-bold px-8 py-3 rounded-full text-lg hover:bg-green-600 transition shadow-lg transform hover:scale-105">
         Pesan via WhatsApp
       </a>
     </div>
@@ -568,7 +700,7 @@
   <footer class="bg-dark text-white py-16 px-6">
     <div class="max-w-7xl mx-auto text-center">
       <div class="flex items-center justify-center space-x-3 mb-6">
-        <div class="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-full"></div>
+        <img src="asset/e.png" alt="E-vite Works Logo" class="logo-img">
         <span class="text-2xl font-display">E-vite Works</span>
       </div>
       <p class="text-gray-400 mb-6">© 2025 E-vite Works. All rights reserved.</p>
@@ -605,55 +737,12 @@
 
     // Templates
     const templates = [
-      { id: 1, name: "Aurora", previewUrl: "template1.html", img: "asset/gambar1.jpg" },
-      { id: 2, name: "Golden Luxe", previewUrl: "Template2.html", img: "asset/gambar2.jpg" },
+      { id: 1, name: "Golden Luxe", previewUrl: "template1.html", img: "asset/gambar1.jpg" },
+      { id: 2, name: "Clasicc", previewUrl: "Template2.html", img: "asset/gambar2.jpg" },
       { id: 3, name: "Minimal Bloom", previewUrl: "Template3.html", img: "asset/gambar3.jpg" }
     ];
 
-    document.getElementById('template-grid').innerHTML = templates.map(t => `
-      <div class="bg-white rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-500 cursor-pointer transform hover:-translate-y-2" data-aos="fade-up">
-        <img src="${t.img}" alt="${t.name}" class="w-full h-80 object-cover">
-        <div class="p-8 text-center">
-          <h3 class="text-2xl font-display text-primary mb-4">${t.name}</h3>
-          <button onclick="openPreview(${t.id})" class="inline-flex items-center bg-gradient-to-r from-primary to-accent text-white font-bold px-8 py-4 rounded-full shadow-btn hover:shadow-lg transform hover:scale-105 transition-all duration-300">
-            Lihat di HP
-            <svg class="w-6 h-6 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-          </button>
-        </div>
-      </div>
-    `).join('');
-
-    // Pricing
-    const pricing = [
-      { name: "Basic", monthly: 299000, yearly: 299000 * 12 * 0.8, features: ["1 Template", "Domain .com", "Galeri 20 Foto", "RSVP Dasar"] },
-      { name: "Premium", monthly: 599000, yearly: 599000 * 12 * 0.8, features: ["3 Template", "Custom Domain", "Musik & RSVP", "Galeri 50 Foto", "Video Ucapan"], popular: true },
-      { name: "Elite", monthly: 1299000, yearly: 1299000 * 12 * 0.8, features: ["Unlimited", "Domain .id", "Video Ucapan", "RSVP Pro", "Support 24/7", "Revisi Tak Terbatas"] }
-    ];
-
-    const formatRupiah = (num) => `Rp ${(num).toLocaleString('id-ID')}`;
-    function renderPricing(isYearly) {
-      document.getElementById('pricing-grid').innerHTML = pricing.map((p, i) => `
-        <div class="pricing-card ${p.popular ? 'popular transform scale-105' : ''} bg-white rounded-3xl p-8 text-center shadow-card hover:shadow-card-hover transition-all duration-500" data-aos="zoom-in" data-aos-delay="${i * 100}">
-          ${p.popular ? '<div class="badge-popular">POPULER</div>' : ''}
-          <h3 class="text-3xl font-display text-dark mb-3">${p.name}</h3>
-          <div class="text-5xl font-bold text-primary mb-3">
-            ${isYearly ? formatRupiah(Math.floor(p.yearly / 12)) : formatRupiah(p.monthly)}
-            <span class="text-lg font-normal text-gray-600">/${isYearly ? 'bln' : 'bln'}</span>
-          </div>
-          ${isYearly ? `<p class="text-sm text-gray-500 line-through mb-3">${formatRupiah(p.monthly)}/bln</p>` : ''}
-          <ul class="space-y-4 mb-10 text-left text-gray-600">
-            ${p.features.map(f => `<li class="flex items-center"><span class="text-primary mr-3 text-lg">Check</span> ${f}</li>`).join('')}
-          </ul>
-          <a href="https://wa.me/628123456789?text=Halo%20E-vite%20Works,%20saya%20mau%20paket%20${p.name}%20(${isYearly ? 'tahunan' : 'bulanan'})" class="block bg-gradient-to-r from-primary to-accent text-white font-bold py-4 rounded-full hover:shadow-lg transform hover:scale-105 transition-all duration-300">
-            Pilih Paket
-          </a>
-        </div>
-      `).join('');
-    }
-    document.getElementById('billing-toggle').addEventListener('change', (e) => renderPricing(e.target.checked));
-    renderPricing(false);
-
-    // Preview Modal (Fullscreen, Responsif)
+    // Preview Modal
     const modal = document.getElementById('preview-modal');
     const iframe = document.getElementById('preview-iframe');
     const closeBtn = document.getElementById('close-preview');
@@ -674,6 +763,36 @@
     modal.onclick = (e) => {
       if (e.target === modal) closeBtn.click();
     };
+
+    // Pricing
+    const pricing = [
+      { name: "Basic", monthly: 49000, yearly: 299000 * 12 * 0.8, features: ["1 Template", "Domain .com", "Galeri 20 Foto", "RSVP Dasar"] },
+      { name: "Premium", monthly: 79000, yearly: 599000 * 12 * 0.8, features: ["3 Template", "Custom Domain", "Musik & RSVP", "Galeri 50 Foto", "Video Ucapan"], popular: true },
+      { name: "Elite", monthly: 99000, yearly: 999000 * 12 * 0.8, features: ["Unlimited", "Domain .id", "Video Ucapan", "RSVP Pro", "Support 24/7", "Revisi Tak Terbatas"] }
+    ];
+
+    const formatRupiah = (num) => `Rp ${(num).toLocaleString('id-ID')}`;
+    function renderPricing(isYearly) {
+      document.getElementById('pricing-grid').innerHTML = pricing.map((p, i) => `
+        <div class="pricing-card ${p.popular ? 'popular transform scale-105' : ''} bg-white rounded-3xl p-8 text-center shadow-card hover:shadow-card-hover transition-all duration-500" data-aos="zoom-in" data-aos-delay="${i * 100}">
+          ${p.popular ? '<div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-primary text-white px-4 py-1 rounded-full text-sm font-bold">POPULER</div>' : ''}
+          <h3 class="text-3xl font-display text-dark mb-3">${p.name}</h3>
+          <div class="text-5xl font-bold text-primary mb-3">
+            ${isYearly ? formatRupiah(Math.floor(p.yearly / 12)) : formatRupiah(p.monthly)}
+            <span class="text-lg font-normal text-gray-600">/${isYearly ? 'bln' : 'bln'}</span>
+          </div>
+          ${isYearly ? `<p class="text-sm text-gray-500 line-through mb-3">${formatRupiah(p.monthly)}/bln</p>` : ''}
+          <ul class="space-y-4 mb-10 text-left text-gray-600">
+            ${p.features.map(f => `<li class="flex items-center"><span class="text-primary mr-3 text-lg">Check</span> ${f}</li>`).join('')}
+          </ul>
+          <a href="https://wa.me/6285712432595?text=Halo%20E-vite%20Works,%20saya%20mau%20paket%20${p.name}%20(${isYearly ? 'tahunan' : 'bulanan'})" class="block bg-gradient-to-r from-primary to-accent text-white font-bold py-4 rounded-full hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+            Pilih Paket
+          </a>
+        </div>
+      `).join('');
+    }
+    document.getElementById('billing-toggle').addEventListener('change', (e) => renderPricing(e.target.checked));
+    renderPricing(false);
 
     // FAQ Toggle
     window.toggleFAQ = function(el) {
