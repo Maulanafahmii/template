@@ -445,7 +445,7 @@
       opacity: 0.1;
       font-family: serif;
     }
-
+.text-gold { color: #D4AF37; }
     /* FAQ */
     .faq-item {
       background: white;
@@ -467,6 +467,20 @@
     .faq-answer.open {
       max-height: 200px;
     }
+    /* Footer Responsif & Ringkas */
+@media (max-width: 640px) {
+  footer {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+  footer .logo-img {
+    width: 32px !important;
+    height: 32px !important;
+  }
+  footer span {
+    font-size: 1.125rem !important;
+  }
+}
   </style>
 </head>
 <body class="bg-white text-gray-800 font-body">
@@ -730,27 +744,43 @@
     </div>
   </section>
 
-  <!-- CTA STICKY -->
-  <div class="fixed bottom-0 left-0 right-0 bg-white shadow-2xl border-t border-gray-200 p-5 z-50">
-    <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p class="text-gray-800 font-medium text-center sm:text-left">Siap buat undangan impianmu?</p>
-      <a href="https://wa.me/6285712432595?text=Halo%20E-vite%20Works,%20saya%20mau%20pesan%20undangan%20digital" class="bg-green-500 text-white font-bold px-8 py-3 rounded-full text-lg hover:bg-green-600 transition shadow-lg transform hover:scale-105">
-        Pesan via WhatsApp
-      </a>
-    </div>
+  <!-- CTA STICKY – Ramping & Elegan -->
+<div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-lg border-t border-gray-100 z-50 transition-all duration-300">
+  <div class="max-w-5xl mx-auto px-5 py-3 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm md:text-base">
+    <p class="text-gray-700 font-medium text-center sm:text-left leading-tight">
+      Siap buat undangan impianmu?
+    </p>
+    <a href="https://wa.me/6285712432595?text=Halo%20E-vite%20Works,%20saya%20mau%20pesan%20undangan%20digital"
+       class="bg-gradient-to-r from-green-500 to-green-600 text-white font-bold px-6 py-2.5 rounded-full text-sm md:text-base shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center gap-2 whitespace-nowrap">
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.198-.347.223-.644.075-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.297-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.273.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893A11.821 11.821 0 0020.884 3.488"/></svg>
+      Pesan via WhatsApp
+    </a>
+  </div>
+</div>
   </div>
 
-  <!-- FOOTER -->
-  <footer class="bg-dark text-white py-16 px-6">
-    <div class="max-w-7xl mx-auto text-center">
-      <div class="flex items-center justify-center space-x-3 mb-6">
-        <img src="asset/e.png" alt="E-vite Works Logo" class="logo-img">
-        <span class="text-2xl font-display">E-vite Works</span>
-      </div>
-      <p class="text-gray-400 mb-6">© 2025 E-vite Works. All rights reserved.</p>
-      <p class="text-sm text-gray-500">Dibuat dengan cinta untuk momen spesial Anda.</p>
+<!-- FOOTER -->
+<footer class="bg-dark text-white py-10 px-6 border-t border-gray-800">
+  <div class="max-w-7xl mx-auto text-center space-y-4">
+    <!-- Logo & Nama -->
+    <div class="flex items-center justify-center space-x-3">
+      <img src="asset/e.png" alt="E-vite Works Logo" class="logo-img w-9 h-9">
+      <span class="text-2xl font-display tracking-tight">E-vite Works</span>
     </div>
-  </footer>
+
+    <!-- Copyright Estetik -->
+    <div class="text-gray-400 text-sm md:text-base font-light">
+      <span>© 2025 </span>
+      <span class="text-gold">E-vite Works</span>
+      <span>. All rights reserved.</span>
+    </div>
+
+    <!-- Tagline -->
+    <p class="text-xs md:text-sm text-gray-500 italic">
+      Dibuat dengan cinta untuk momen spesial Anda
+    </p>
+  </div>
+</footer>
 
   <!-- JAVASCRIPT -->
   <script>
@@ -853,6 +883,7 @@
 
     // GSAP Hero
     gsap.from("h1 span", { opacity: 0, y: 50, duration: 1.2, delay: 0.5, ease: "power3.out" });
+    
   </script>
 </body>
 </html>
