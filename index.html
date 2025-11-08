@@ -109,7 +109,7 @@
   <header class="fixed top-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md z-50 border-b border-gray-200 dark:border-gray-700">
     <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
       <div class="flex items-center space-x-3">
-        <img src="asset/e.png" alt="E-vite Works" class="w-10 h-10 rounded-full shadow-md">
+        <img src="/assets/e.png" alt="E-vite Works" class="w-10 h-10 rounded-full shadow-md">
         <span class="text-2xl font-display text-dark dark:text-white">E-vite Works</span>
       </div>
       <nav class="hidden md:flex space-x-10">
@@ -172,7 +172,7 @@
         <div class="phone-wrapper" data-aos="fade-up">
           <div class="phone-mockup mx-auto animate-float" onclick="openPreview(1)">
             <div class="phone-notch"></div>
-            <div class="phone-screen"><img src="asset/gambar1.jpg" alt="Golden Luxe" class="w-full h-full object-cover"></div>
+            <div class="phone-screen"><img src="/assets/gambar1.jpg" alt="Golden Luxe" class="w-full h-full object-cover"></div>
             <div class="pulse-ring"></div>
             <div class="click-hint">Klik untuk Preview</div>
           </div>
@@ -181,7 +181,7 @@
         <div class="phone-wrapper" data-aos="fade-up" data-aos-delay="200">
           <div class="phone-mockup mx-auto animate-float" style="animation-delay:.5s" onclick="openPreview(2)">
             <div class="phone-notch"></div>
-            <div class="phone-screen"><img src="asset/gambar2.jpg" alt="Clasicc" class="w-full h-full object-cover"></div>
+            <div class="phone-screen"><img src="/assets/gambar2.jpg" alt="Clasicc" class="w-full h-full object-cover"></div>
             <div class="pulse-ring"></div>
             <div class="click-hint">Klik untuk Preview</div>
           </div>
@@ -190,7 +190,7 @@
         <div class="phone-wrapper" data-aos="fade-up" data-aos-delay="400">
           <div class="phone-mockup mx-auto animate-float" style="animation-delay:1s" onclick="openPreview(3)">
             <div class="phone-notch"></div>
-            <div class="phone-screen"><img src="asset/gambar3.jpg" alt="Minimal Bloom" class="w-full h-full object-cover"></div>
+            <div class="phone-screen"><img src="/assets/gambar3.jpg" alt="Minimal Bloom" class="w-full h-full object-cover"></div>
             <div class="pulse-ring"></div>
             <div class="click-hint">Klik untuk Preview</div>
           </div>
@@ -377,7 +377,7 @@
     const closeBtn = document.getElementById('close-preview');
 
     window.openPreview = id => {
-      iframe.src = `template${id}.html`;  // Cocok dengan template1.html, template2.html, template3.html
+      iframe.src = `/template${id}.html`;  // Cocok dengan template1.html, template2.html, template3.html
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
     };
