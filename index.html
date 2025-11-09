@@ -13,7 +13,6 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -55,231 +54,59 @@
     }
   </script>
 
-  <!-- AOS Animation -->
+  <!-- AOS -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
   <!-- Alpine.js -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 
   <style>
-    /* Utility */
     [x-cloak] { display: none !important; }
 
-    /* Phone Mockup */
-    .phone-mockup {
-      position: relative;
-      width: 100%;
-      max-width: 320px;
-      margin: 0 auto;
-      aspect-ratio: 9/19.5;
-      background: #000;
-      border-radius: 2.75rem;
-      padding: .875rem;
-      box-shadow: 0 40px 80px rgba(0,0,0,.2);
-      cursor: pointer;
-      transition: all .4s cubic-bezier(.4,0,.2,1);
-      overflow: hidden;
-    }
-    .dark .phone-mockup { box-shadow: 0 40px 80px rgba(0,0,0,.5); }
-    .phone-mockup:hover { transform: translateY(-12px) scale(1.02); }
+    /* PHONE MOCKUP */
+    .phone-mockup{position:relative;width:100%;max-width:320px;margin:0 auto;aspect-ratio:9/19.5;background:#000;border-radius:2.75rem;padding:.875rem;box-shadow:0 40px 80px rgba(0,0,0,.2);cursor:pointer;transition:all .4s cubic-bezier(.4,0,.2,1);overflow:hidden}
+    .dark .phone-mockup{box-shadow:0 40px 80px rgba(0,0,0,.5)}
+    .phone-mockup:hover{transform:translateY(-12px) scale(1.02)}
+    .phone-screen{width:100%;height:100%;background:#fff;border-radius:2.25rem;overflow:hidden;position:relative}
+    .dark .phone-screen{background:#1a1a1a}
+    .phone-notch{position:absolute;top:.75rem;left:50%;transform:translateX(-50%);width:40%;max-width:130px;height:1.625rem;background:#000;border-radius:.8125rem;z-index:10}
+    .dark .phone-notch{background:#1a1a1a}
+    .pulse-ring{position:absolute;top:50%;left:50%;width:40px;height:40px;background:rgba(30,64,175,.3);border-radius:50%;transform:translate(-50%,-50%);animation:pulseRing 2s infinite;pointer-events:none;z-index:5}
+    .click-hint{position:absolute;bottom:1.25rem;left:50%;transform:translateX(-50%);background:rgba(30,64,175,.95);color:#fff;font-size:.8rem;font-weight:600;padding:.5rem 1rem;border-radius:1.25rem;white-space:nowrap;opacity:0;pointer-events:none;transition:all .4s ease;z-index:20;backdrop-filter:blur(8px);box-shadow:0 4px 12px rgba(0,0,0,.2)}
+    .click-hint::before{content:'';position:absolute;top:-.5rem;left:50%;transform:translateX(-50%);border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:8px solid rgba(30,64,175,.95)}
+    .phone-mockup:hover .click-hint{opacity:1;transform:translateX(-50%) translateY(-.5rem)}
 
-    .phone-screen {
-      width: 100%;
-      height: 100%;
-      background: #fff;
-      border-radius: 2.25rem;
-      overflow: hidden;
-      position: relative;
-    }
-    .dark .phone-screen { background: #1a1a1a; }
+    /* PREVIEW MODAL */
+    #preview-modal{position:fixed;inset:0;background:#000;z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;visibility:hidden;transition:all .5s ease}
+    #preview-modal.active{opacity:1;visibility:visible}
+    .preview-phone{position:relative;width:100%;max-width:380px;aspect-ratio:9/19.5;background:#000;border-radius:2.75rem;padding:.875rem;box-shadow:0 40px 100px rgba(0,0,0,.7);overflow:hidden;transform:scale(.85);opacity:0;transition:all .6s cubic-bezier(.4,0,.2,1)}
+    #preview-modal.active .preview-phone{transform:scale(1);opacity:1}
+    .preview-screen{width:100%;height:100%;background:#fff;border-radius:2.25rem;overflow:hidden}
+    .dark .preview-screen{background:#1a1a1a}
+    .preview-notch{position:absolute;top:.75rem;left:50%;transform:translateX(-50%);width:40%;max-width:130px;height:1.625rem;background:#000;border-radius:.8125rem;z-index:10}
+    .dark .preview-notch{background:#1a1a1a}
+    .preview-close{position:absolute;top:1rem;right:1rem;width:48px;height:48px;background:rgba(0,0,0,.7);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.75rem;font-weight:bold;cursor:pointer;z-index:10000;backdrop-filter:blur(12px);transition:all .3s ease}
+    .preview-close:hover{background:rgba(0,0,0,.9);transform:scale(1.15) rotate(90deg)}
 
-    .phone-notch {
-      position: absolute;
-      top: .75rem;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 40%;
-      max-width: 130px;
-      height: 1.625rem;
-      background: #000;
-      border-radius: .8125rem;
-      z-index: 10;
-    }
-    .dark .phone-notch { background: #1a1a1a; }
+    /* BACKGROUND */
+    body::before{content:'';position:fixed;top:0;left:0;width:200%;height:200%;background:radial-gradient(circle at 20% 80%,rgba(30,64,175,.06) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(202,138,4,.06) 0%,transparent 50%),radial-gradient(circle at 50% 50%,rgba(30,64,175,.03) 0%,transparent 70%);opacity:.7;z-index:-2;pointer-events:none;animation:fall 30s ease infinite}
+    .dark body::before{background:radial-gradient(circle at 20% 80%,rgba(30,64,175,.12) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(202,138,4,.12) 0%,transparent 50%),radial-gradient(circle at 50% 50%,rgba(30,64,175,.08) 0%,transparent 70%);opacity:.5}
+    body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=10') center/cover no-repeat;opacity:.03;z-index:-3;pointer-events:none}
+    .dark body::after{opacity:.08}
+    /* Hover zoom halus pada gambar di dalam mockup */
+.phone-screen img {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.phone-mockup:hover .phone-screen img {
+  transform: scale(1.05);
+}
 
-    .pulse-ring {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 40px;
-      height: 40px;
-      background: rgba(30,64,175,.3);
-      border-radius: 50%;
-      transform: translate(-50%,-50%);
-      animation: pulseRing 2s infinite;
-      pointer-events: none;
-      z-index: 5;
-    }
-
-    .click-hint {
-      position: absolute;
-      bottom: 1.25rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(30,64,175,.95);
-      color: #fff;
-      font-size: .8rem;
-      font-weight: 600;
-      padding: .5rem 1rem;
-      border-radius: 1.25rem;
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transition: all .4s ease;
-      z-index: 20;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 4px 12px rgba(0,0,0,.2);
-    }
-    .click-hint::before {
-      content: '';
-      position: absolute;
-      top: -.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-      border-bottom: 8px solid rgba(30,64,175,.95);
-    }
-    .phone-mockup:hover .click-hint {
-      opacity: 1;
-      transform: translateX(-50%) translateY(-.5rem);
-    }
-
-    /* Preview Modal */
-    #preview-modal {
-      position: fixed;
-      inset: 0;
-      background: #000;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      opacity: 0;
-      visibility: hidden;
-      transition: all .5s ease;
-    }
-    #preview-modal.active {
-      opacity: 1;
-      visibility: visible;
-    }
-    .preview-phone {
-      position: relative;
-      width: 100%;
-      max-width: 380px;
-      aspect-ratio: 9/19.5;
-      background: #000;
-      border-radius: 2.75rem;
-      padding: .875rem;
-      box-shadow: 0 40px 100px rgba(0,0,0,.7);
-      overflow: hidden;
-      transform: scale(.85);
-      opacity: 0;
-      transition: all .6s cubic-bezier(.4,0,.2,1);
-    }
-    #preview-modal.active .preview-phone {
-      transform: scale(1);
-      opacity: 1;
-    }
-    .preview-screen {
-      width: 100%;
-      height: 100%;
-      background: #fff;
-      border-radius: 2.25rem;
-      overflow: hidden;
-    }
-    .dark .preview-screen { background: #1a1a1a; }
-    .preview-notch {
-      position: absolute;
-      top: .75rem;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 40%;
-      max-width: 130px;
-      height: 1.625rem;
-      background: #000;
-      border-radius: .8125rem;
-      z-index: 10;
-    }
-    .dark .preview-notch { background: #1a1a1a; }
-    .preview-close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      width: 48px;
-      height: 48px;
-      background: rgba(0,0,0,.7);
-      color: #fff;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.75rem;
-      font-weight: bold;
-      cursor: pointer;
-      z-index: 10000;
-      backdrop-filter: blur(12px);
-      transition: all .3s ease;
-    }
-    .preview-close:hover {
-      background: rgba(0,0,0,.9);
-      transform: scale(1.15) rotate(90deg);
-    }
-
-    /* Background Effects */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0; left: 0;
-      width: 200%; height: 200%;
-      background: 
-        radial-gradient(circle at 20% 80%, rgba(30,64,175,.06) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(202,138,4,.06) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(30,64,175,.03) 0%, transparent 70%);
-      opacity: .7;
-      z-index: -2;
-      pointer-events: none;
-      animation: fall 30s ease infinite;
-    }
-    .dark body::before { opacity: .5; }
-    body::after {
-      content: '';
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=10') center/cover no-repeat;
-      opacity: .03;
-      z-index: -3;
-      pointer-events: none;
-    }
-    .dark body::after { opacity: .08; }
-
-    /* Smooth Image Zoom */
-    .phone-screen img {
-      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .phone-mockup:hover .phone-screen img {
-      transform: scale(1.05);
-    }
-
-    /* AOS Smooth */
-    [data-aos] {
-      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    }
+/* Transisi lebih smooth saat masuk */
+[data-aos] {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
   </style>
 </head>
 
@@ -290,7 +117,7 @@
     Promo: Diskon 20% untuk 5 pembeli pertama!
   </div>
 
-  <!-- Header -->
+  <!-- HEADER -->
   <header class="fixed top-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md z-50 border-b border-gray-200 dark:border-gray-700">
     <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
       <div class="flex items-center space-x-3">
@@ -316,7 +143,7 @@
     </div>
   </header>
 
-  <!-- Mobile Menu -->
+  <!-- MOBILE MENU -->
   <div x-show="mobileMenu" x-cloak x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0 translate-x-full" x-transition:enter-end="opacity-100 translate-x-0" x-transition:leave="transition ease-in duration-500" x-transition:leave-start="opacity-100 translate-x-0" x-transition:leave-end="opacity-0 translate-x-full" @click.away="mobileMenu = false" class="fixed inset-0 z-[999] bg-black/50 backdrop-blur-sm">
     <div class="fixed right-0 top-0 h-full w-full max-w-xs bg-white dark:bg-gray-900 shadow-2xl p-8 pt-20 flex flex-col gap-6 overflow-y-auto">
       <button @click="mobileMenu = false" class="absolute top-4 right-4 w-12 h-12 bg-primary/20 dark:bg-accent/20 rounded-full flex items-center justify-center text-primary dark:text-accent hover:bg-primary hover:text-white dark:hover:bg-accent dark:hover:text-gray-900 transition-all">
@@ -329,7 +156,7 @@
     </div>
   </div>
 
-  <!-- Hero Section -->
+  <!-- HERO -->
   <section class="relative min-h-screen flex items-center justify-center px-6 pt-32 pb-24 overflow-hidden">
     <div class="text-center max-w-5xl mx-auto z-10" data-aos="fade-up">
       <h1 class="text-5xl md:text-7xl lg:text-8xl font-display text-dark dark:text-white mb-6 leading-tight">
@@ -346,62 +173,181 @@
     </div>
   </section>
 
-  <!-- Templates Section -->
-  <section id="templates" class="py-32 px-6 bg-light dark:bg-gray-800">
-    <div class="max-w-7xl mx-auto">
-      <div class="text-center mb-20">
-        <h2 class="text-4xl md:text-6xl font-display text-dark dark:text-white mb-6" data-aos="fade-up">Pilih Template Impianmu</h2>
-        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">100+ desain elegan untuk setiap tema pernikahan</p>
+ <!-- TEMPLATES -->
+<section id="templates" class="py-32 px-6 bg-light dark:bg-gray-800">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-20">
+      <h2 class="text-4xl md:text-6xl font-display text-dark dark:text-white mb-6" data-aos="fade-up">Pilih Template Impianmu</h2>
+      <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">100+ desain elegan untuk setiap tema pernikahan</p>
+    </div>
+
+    <!-- GRID: 3 HP BERSEBELAHAN -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
+      
+      <!-- TEMPLATE 1 -->
+      <div class="phone-wrapper" data-aos="fade-up" data-aos-delay="0">
+        <div class="phone-mockup mx-auto animate-float" 
+             data-template="template1.html" 
+             onclick="openPreview(this)"
+             style="animation-delay: 0s">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <img src="asset/gambar1.jpg" alt="Golden Luxe" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+          </div>
+          <div class="pulse-ring"></div>
+          <div class="click-hint">Klik untuk Preview</div>
+        </div>
+        <p class="text-center mt-8 text-lg font-medium text-gray-700 dark:text-gray-300">Golden Luxe</p>
       </div>
 
-      <!-- Grid: 3 Phones Side-by-Side -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
-        <!-- Template 1 -->
-        <div class="phone-wrapper" data-aos="fade-up" data-aos-delay="0">
-          <div class="phone-mockup mx-auto animate-float" data-template="template1.html" onclick="openPreview(this)" style="animation-delay: 0s">
-            <div class="phone-notch"></div>
-            <div class="phone-screen">
-              <img src="asset/gambar1.jpg" alt="Golden Luxe" class="w-full h-full object-cover">
-            </div>
-            <div class="pulse-ring"></div>
-            <div class="click-hint">Klik untuk Preview</div>
+      <!-- TEMPLATE 2 -->
+      <div class="phone-wrapper" data-aos="fade-up" data-aos-delay="200">
+        <div class="phone-mockup mx-auto animate-float" 
+             data-template="template4.html" 
+             onclick="openPreview(this)"
+             style="animation-delay: 0.5s">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <img src="asset/gambar2.jpg" alt="Clasicc" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
           </div>
-          <p class="text-center mt-8 text-lg font-medium text-gray-700 dark:text-gray-300">Golden Luxe</p>
+          <div class="pulse-ring"></div>
+          <div class="click-hint">Klik untuk Preview</div>
         </div>
+        <p class="text-center mt-8 text-lg font-medium text-gray-700 dark:text-gray-300">Clasicc</p>
+      </div>
 
-        <!-- Template 2 -->
-        <div class="phone-wrapper" data-aos="fade-up" data-aos-delay="200">
-          <div class="phone-mockup mx-auto animate-float" data-template="template2.html" onclick="openPreview(this)" style="animation-delay: 0.5s">
-            <div class="phone-notch"></div>
-            <div class="phone-screen">
-              <img src="asset/gambar2.jpg" alt="Clasicc" class="w-full h-full object-cover">
-            </div>
-            <div class="pulse-ring"></div>
-            <div class="click-hint">Klik untuk Preview</div>
+      <!-- TEMPLATE 3 -->
+      <div class="phone-wrapper" data-aos="fade-up" data-aos-delay="400">
+        <div class="phone-mockup mx-auto animate-float" 
+             data-template="template5.html" 
+             onclick="openPreview(this)"
+             style="animation-delay: 1s">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <img src="asset/gambar3.jpg" alt="Minimal Bloom" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
           </div>
-          <p class="text-center mt-8 text-lg font-medium text-gray-700 dark:text-gray-300">Clasicc</p>
+          <div class="pulse-ring"></div>
+          <div class="click-hint">Klik untuk Preview</div>
         </div>
+        <p class="text-center mt-8 text-lg font-medium text-gray-700 dark:text-gray-300">Minimal Bloom</p>
+      </div>
 
-        <!-- Template 3 -->
-        <div class="phone-wrapper" data-aos="fade-up" data-aos-delay="400">
-          <div class="phone-mockup mx-auto animate-float" data-template="template3.html" onclick="openPreview(this)" style="animation-delay: 1s">
-            <div class="phone-notch"></div>
-            <div class="phone-screen">
-              <img src="asset/gambar3.jpg" alt="Minimal Bloom" class="w-full h-full object-cover">
-            </div>
-            <div class="pulse-ring"></div>
-            <div class="click-hint">Klik untuk Preview</div>
-          </div>
-          <p class="text-center mt-8 text-lg font-medium text-gray-700 dark:text-gray-300">Minimal Bloom</p>
+    </div>
+  </div>
+</section>
+
+  <!-- ====================== FEATURES ====================== -->
+  <section id="features" class="py-32 px-6 bg-gradient-to-b from-white to-light dark:from-gray-900 dark:to-gray-800">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-20">
+        <h2 class="text-4xl md:text-6xl font-display text-dark dark:text-white mb-6" data-aos="fade-up">Fitur Premium</h2>
+        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">Semua yang Anda butuhkan untuk undangan digital sempurna</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div class="text-center" data-aos="fade-up">
+          <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center shadow-lg"><i data-lucide="smartphone" class="w-10 h-10 text-white"></i></div>
+          <h3 class="text-2xl font-display text-dark dark:text-white mb-4">100% Mobile-First</h3>
+          <p class="text-gray-600 dark:text-gray-400">Tampilan sempurna di semua ponsel. Buka langsung dari WhatsApp.</p>
+        </div>
+        <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+          <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center shadow-lg"><i data-lucide="music" class="w-10 h-10 text-white"></i></div>
+          <h3 class="text-2xl font-display text-dark dark:text-white mb-4">RSVP & Musik</h3>
+          <p class="text-gray-600 dark:text-gray-400">Konfirmasi otomatis + musik latar elegan.</p>
+        </div>
+        <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+          <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center shadow-lg"><i data-lucide="image" class="w-10 h-10 text-white"></i></div>
+          <h3 class="text-2xl font-display text-dark dark:text-white mb-4">Galeri Tanpa Batas</h3>
+          <p class="text-gray-600 dark:text-gray-400">Upload hingga 100 foto & video.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Features, Testimonials, Pricing, FAQ, CTA, Footer (tetap sama, dirapikan) -->
-  <!-- [Disingkat untuk ringkas, tapi tetap ada di kode lengkap] -->
+  <!-- ====================== TESTIMONIALS ====================== -->
+  <section id="testimonials" class="py-32 px-6 bg-gradient-to-b from-light to-white dark:from-gray-800 dark:to-gray-900">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-4xl md:text-6xl font-display text-center mb-12 text-dark dark:text-white" data-aos="fade-up">Apa Kata Pengantin?</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg text-center max-w-md mx-auto" data-aos="fade-up">
+          <p class="italic text-gray-700 dark:text-gray-300 mb-6">"Undangan digitalnya sangat elegan! Tamu pada bilang wow. Prosesnya juga cepat."</p>
+          <div class="flex items-center justify-center gap-3">
+            <div class="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-full"></div>
+            <div><p class="font-semibold text-dark dark:text-white">Sinta & Reza</p><p class="text-sm text-gray-500 dark:text-gray-400">Pernikahan, Jakarta</p></div>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg text-center max-w-md mx-auto" data-aos="fade-up" data-aos-delay="100">
+          <p class="italic text-gray-700 dark:text-gray-300 mb-6">"Fitur RSVP sangat membantu. Semua tamu konfirmasi otomatis. Hemat waktu!"</p>
+          <div class="flex items-center justify-center gap-3">
+            <div class="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-full"></div>
+            <div><p class="font-semibold text-dark dark:text-white">Aditya & Maya</p><p class="text-sm text-gray-500 dark:text-gray-400">Resepsi, Bali</p></div>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg text-center max-w-md mx-auto" data-aos="fade-up" data-aos-delay="200">
+          <p class="italic text-gray-700 dark:text-gray-300 mb-6">"Desainnya mewah banget. Worth it dengan harganya. Recomended!"</p>
+          <div class="flex items-center justify-center gap-3">
+            <div class="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-full"></div>
+            <div><p class="font-semibold text-dark dark:text-white">Rina & Dito</p><p class="text-sm text-gray-500 dark:text-gray-400">Lamaran, Bandung</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- Preview Modal -->
+  <!-- ====================== PRICING ====================== -->
+  <section id="pricing" class="py-32 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-20">
+        <h2 class="text-4xl md:text-6xl font-display text-dark dark:text-white mb-6" data-aos="fade-up">Pilih Paket Anda</h2>
+        <div class="flex items-center justify-center space-x-4" data-aos="fade-up" data-aos-delay="200">
+          <span class="text-lg text-gray-600 dark:text-gray-300">Bulanan</span>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="billing-toggle" class="sr-only peer">
+            <div class="w-14 h-7 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary"></div>
+          </label>
+          <span class="text-lg font-medium text-primary">Tahunan <span class="text-xs bg-primary text-white px-3 py-1 rounded-full">Diskon 20%</span></span>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto" id="pricing-grid"></div>
+    </div>
+  </section>
+
+  <!-- ====================== FAQ ====================== -->
+  <section class="py-32 px-6 bg-light dark:bg-gray-800">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-4xl md:text-6xl font-display text-center mb-12 text-dark dark:text-white" data-aos="fade-up">Pertanyaan Umum</h2>
+      <div id="faq-container">
+        <div class="faq-item bg-white dark:bg-gray-900 rounded-xl p-6 mb-4 shadow-md cursor-pointer" onclick="toggleFAQ(this)">
+          <div class="flex justify-between items-center">
+            <h3 class="text-lg font-semibold text-dark dark:text-white">Berapa lama proses pembuatan?</h3>
+            <span class="text-primary text-xl transition-transform">Down</span>
+          </div>
+          <div class="faq-answer mt-4 text-gray-600 dark:text-gray-400 max-h-0 overflow-hidden transition-all duration-300">
+            <p>Hanya <strong>1-3 hari kerja</strong> setelah data lengkap. Revisi gratis hingga puas.</p>
+          </div>
+        </div>
+        <div class="faq-item bg-white dark:bg-gray-900 rounded-xl p-6 mb-4 shadow-md cursor-pointer" onclick="toggleFAQ(this)">
+          <div class="flex justify-between items-center">
+            <h3 class="text-lg font-semibold text-dark dark:text-white">Bisa custom warna & foto?</h3>
+            <span class="text-primary text-xl transition-transform">Down</span>
+          </div>
+          <div class="faq-answer mt-4 text-gray-600 dark:text-gray-400 max-h-0 overflow-hidden transition-all duration-300">
+            <p>Tentu! Semua paket mendukung <strong>kustomisasi penuh</strong>: warna, foto, teks, musik.</p>
+          </div>
+        </div>
+        <div class="faq-item bg-white dark:bg-gray-900 rounded-xl p-6 mb-4 shadow-md cursor-pointer" onclick="toggleFAQ(this)">
+          <div class="flex justify-between items-center">
+            <h3 class="text-lg font-semibold text-dark dark:text-white">Apakah bisa digunakan untuk acara selain pernikahan?</h3>
+            <span class="text-primary text-xl transition-transform">Down</span>
+          </div>
+          <div class="faq-answer mt-4 text-gray-600 dark:text-gray-400 max-h-0 overflow-hidden transition-all duration-300">
+            <p>Ya! Cocok untuk <strong>lamaran, ulang tahun, khitanan, gathering</strong>, dan acara lainnya.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREVIEW MODAL -->
   <div id="preview-modal">
     <div class="preview-phone">
       <div class="preview-notch"></div>
@@ -412,14 +358,41 @@
     </div>
   </div>
 
-  <!-- CTA Sticky & Footer (tetap sama) -->
+  <!-- ====================== CTA STICKY ====================== -->
+  <div class="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm shadow-lg border-t border-gray-100 dark:border-gray-700 z-50">
+    <div class="max-w-5xl mx-auto px-4 py-2.5 flex items-center justify-between gap-3 text-sm">
+      <div class="flex items-center gap-2 text-gray-700 dark:text-gray-300 font-medium">
+        <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.198-.347.223-.644.075-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.297-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.273.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893A11.821 11.821 0 0020.884 3.488"/></svg>
+        <span class="truncate">Siap buat undangan impianmu?</span>
+      </div>
+      <a href="https://wa.me/6285712432595?text=Halo%20E-vite%20Works,%20saya%20mau%20pesan%20undangan%20digital"
+         class="bg-gradient-to-r from-green-500 to-green-600 text-white font-bold px-5 py-2 rounded-full text-xs md:text-sm shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center gap-1.5">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.198-.347.223-.644.075-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.297-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.273.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893A11.821 11.821 0 0020.884 3.488"/></svg>
+        <span>Pesan Sekarang</span>
+      </a>
+    </div>
+  </div>
 
-  <!-- JavaScript -->
+  <!-- ====================== FOOTER ====================== -->
+  <footer class="bg-dark text-white py-12 px-6">
+    <div class="max-w-7xl mx-auto text-center space-y-6">
+      <div class="flex items-center justify-center gap-3">
+        <img src="asset/e.png" alt="Logo" class="w-10 h-10 rounded-full">
+        <span class="text-2xl font-display">E-vite Works</span>
+      </div>
+      
+      <p class="text-xs text-gray-400">© 2025 <span class="text-gold">E-vite Works</span>. Dibuat dengan cinta untuk momen spesial Anda.</p>
+      <a href="#templates" class="inline-block mt-4 bg-gold text-dark px-6 py-2 rounded-full text-sm font-medium hover:bg-yellow-400 transition">
+        Buat Undanganmu Sekarang
+      </a>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT -->
   <script>
-    // Initialize AOS
     AOS.init({ duration: 800, once: true });
 
-    // Dark Mode
+    // DARK MODE
     const darkToggle = document.getElementById('dark-mode-toggle');
     const html = document.documentElement;
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -434,49 +407,76 @@
     });
     refreshIcons();
 
-    // Preview Modal
-    const modal = document.getElementById('preview-modal');
-    const iframe = document.getElementById('preview-iframe');
-    const closeBtn = document.getElementById('close-preview');
+   // PREVIEW MODAL - LOGIKA DIPISAH DARI GAMBAR
+const modal = document.getElementById('preview-modal');
+const iframe = document.getElementById('preview-iframe');
+const closeBtn = document.getElementById('close-preview');
 
-    window.openPreview = function(element) {
-      const path = element.getAttribute('data-template');
-      if (path) {
-        console.log('Loading:', path);
-        iframe.src = path;
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      } else {
-        console.error('Template path missing!');
-      }
-    };
+// Buka preview dari data-template
+window.openPreview = function(element) {
+  const templatePath = element.getAttribute('data-template');
+  if (templatePath) {
+    iframe.src = templatePath;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+};
 
-    closeBtn.onclick = () => {
-      modal.classList.remove('active');
-      setTimeout(() => {
-        iframe.src = '';
-        document.body.style.overflow = 'auto';
-      }, 600);
-    };
+// Tutup modal dengan animasi smooth
+closeBtn.onclick = () => {
+  modal.classList.remove('active');
+  setTimeout(() => { 
+    iframe.src = ''; 
+    document.body.style.overflow = 'auto'; 
+  }, 600);
+};
 
-    modal.addEventListener('click', e => {
-      if (e.target === modal) closeBtn.click();
-    });
-
-    iframe.addEventListener('load', () => console.log('Template loaded'));
-    iframe.addEventListener('error', () => console.error('Failed to load template'));
-
-    // Pricing, FAQ, Icons (tetap sama, dirapikan)
-    const pricing = [ /* ... */ ];
+// Klik luar modal
+modal.addEventListener('click', e => { 
+  if (e.target === modal) closeBtn.click(); 
+});
+    /* ---------- PRICING ---------- */
+    const pricing = [
+      { name: "Basic", monthly: 49000, yearly: 47040, features: ["1 Template","Domain .com","Galeri 20 Foto","RSVP Dasar"] },
+      { name: "Premium", monthly: 79000, yearly: 75840, features: ["3 Template","Custom Domain","Musik & RSVP","Galeri 50 Foto","Video Ucapan"], popular: true },
+      { name: "Elite", monthly: 99000, yearly: 95040, features: ["Unlimited","Domain .id","Video Ucapan","RSVP Pro","Support 24/7","Revisi Tak Terbatas"] }
+    ];
     const fmt = n => `Rp ${n.toLocaleString('id-ID')}`;
-    function render(isYearly) { /* ... */ }
-    document.getElementById('billing-toggle').addEventListener('change', e => render(e.target.checked));
+    function render(isYearly) {
+      document.getElementById('pricing-grid').innerHTML = pricing.map((p,i) => `
+        <div class="bg-white dark:bg-gray-800 rounded-3xl p-8 text-center shadow-lg ${p.popular?'ring-4 ring-primary ring-offset-2 transform scale-105':''}" data-aos="zoom-in" data-aos-delay="${i*100}">
+          ${p.popular?`<div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white px-4 py-1 rounded-full text-sm font-bold">POPULER</div>`:''}
+          <h3 class="text-3xl font-display text-dark dark:text-white mb-3">${p.name}</h3>
+          <div class="text-5xl font-bold text-primary mb-3">
+            ${isYearly?fmt(p.yearly):fmt(p.monthly)}
+            <span class="text-lg font-normal text-gray-600 dark:text-gray-400">/${isYearly?'bln':'bln'}</span>
+          </div>
+          ${isYearly?`<p class="text-sm text-gray-500 line-through mb-3">${fmt(p.monthly)}/bln</p>`:''}
+          <ul class="space-y-4 mb-10 text-left text-gray-600 dark:text-gray-400">
+            ${p.features.map(f=>`<li class="flex items-center"><i data-lucide="check" class="w-5 h-5 text-primary mr-2"></i> ${f}</li>`).join('')}
+          </ul>
+          <a href="https://wa.me/6285712432595?text=Halo,%20saya%20mau%20paket%20${p.name}%20(${isYearly?'tahunan':'bulanan'})"
+             class="block bg-gradient-to-r from-primary to-accent text-white font-bold py-4 rounded-full hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+            Pilih Paket
+          </a>
+        </div>`).join('');
+      refreshIcons();
+    }
+    document.getElementById('billing-toggle').addEventListener('change', e=>render(e.target.checked));
     render(false);
 
-    window.toggleFAQ = el => { /* ... */ };
+    /* ---------- FAQ ---------- */
+    window.toggleFAQ = el => {
+      const ans = el.querySelector('.faq-answer');
+      const arrow = el.querySelector('span:last-child');
+      ans.classList.toggle('max-h-96'); ans.classList.toggle('pt-4');
+      arrow.textContent = ans.classList.contains('max-h-96') ? 'Up' : 'Down';
+      arrow.style.transform = ans.classList.contains('max-h-96') ? 'rotate(180deg)' : 'rotate(0deg)';
+    };
 
+    /* ---------- ICONS REFRESH ---------- */
     const obs = new MutationObserver(() => setTimeout(refreshIcons, 50));
-    document.querySelectorAll('[x-data]').forEach(el => obs.observe(el, { attributes: true, childList: true, subtree: true }));
+    document.querySelectorAll('[x-data]').forEach(el => obs.observe(el, {attributes:true, childList:true, subtree:true}));
     window.addEventListener('load', refreshIcons);
   </script>
 </body>
