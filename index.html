@@ -95,6 +95,18 @@
     .dark body::before{background:radial-gradient(circle at 20% 80%,rgba(30,64,175,.12) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(202,138,4,.12) 0%,transparent 50%),radial-gradient(circle at 50% 50%,rgba(30,64,175,.08) 0%,transparent 70%);opacity:.5}
     body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=10') center/cover no-repeat;opacity:.03;z-index:-3;pointer-events:none}
     .dark body::after{opacity:.08}
+    /* Hover zoom halus pada gambar di dalam mockup */
+.phone-screen img {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.phone-mockup:hover .phone-screen img {
+  transform: scale(1.05);
+}
+
+/* Transisi lebih smooth saat masuk */
+[data-aos] {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
   </style>
 </head>
 
@@ -161,44 +173,68 @@
     </div>
   </section>
 
-  <!-- TEMPLATES -->
-  <section id="templates" class="py-32 px-6 bg-light dark:bg-gray-800">
-    <div class="max-w-7xl mx-auto">
-      <div class="text-center mb-20">
-        <h2 class="text-4xl md:text-6xl font-display text-dark dark:text-white mb-6" data-aos="fade-up">Pilih Template Impianmu</h2>
-        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">100+ desain elegan untuk setiap tema pernikahan</p>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-16 max-w-6xl mx-auto">
-        <div class="phone-wrapper" data-aos="fade-up">
-          <div class="phone-mockup mx-auto animate-float" onclick="openPreview(1)">
-            <div class="phone-notch"></div>
-            <div class="phone-screen"><img src="asset/gambar1.jpg" alt="Golden Luxe" class="w-full h-full object-cover"></div>
-            <div class="pulse-ring"></div>
-            <div class="click-hint">Klik untuk Preview</div>
-          </div>
-          <p class="text-center mt-8 text-lg font-medium text-gray-700 dark:text-gray-300">Golden Luxe</p>
-        </div>
-        <div class="phone-wrapper" data-aos="fade-up" data-aos-delay="200">
-          <div class="phone-mockup mx-auto animate-float" style="animation-delay:.5s" onclick="openPreview(2)">
-            <div class="phone-notch"></div>
-            <div class="phone-screen"><img src="asset/gambar2.jpg" alt="Clasicc" class="w-full h-full object-cover"></div>
-            <div class="pulse-ring"></div>
-            <div class="click-hint">Klik untuk Preview</div>
-          </div>
-          <p class="text-center mt-8 text-lg font-medium text-gray-700 dark:text-gray-300">Clasicc</p>
-        </div>
-        <div class="phone-wrapper" data-aos="fade-up" data-aos-delay="400">
-          <div class="phone-mockup mx-auto animate-float" style="animation-delay:1s" onclick="openPreview(3)">
-            <div class="phone-notch"></div>
-            <div class="phone-screen"><img src="asset/gambar3.jpg" alt="Minimal Bloom" class="w-full h-full object-cover"></div>
-            <div class="pulse-ring"></div>
-            <div class="click-hint">Klik untuk Preview</div>
-          </div>
-          <p class="text-center mt-8 text-lg font-medium text-gray-700 dark:text-gray-300">Minimal Bloom</p>
-        </div>
-      </div>
+ <!-- TEMPLATES -->
+<section id="templates" class="py-32 px-6 bg-light dark:bg-gray-800">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-20">
+      <h2 class="text-4xl md:text-6xl font-display text-dark dark:text-white mb-6" data-aos="fade-up">Pilih Template Impianmu</h2>
+      <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">100+ desain elegan untuk setiap tema pernikahan</p>
     </div>
-  </section>
+
+    <!-- GRID: 3 HP BERSEBELAHAN -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
+      
+      <!-- TEMPLATE 1 -->
+      <div class="phone-wrapper" data-aos="fade-up" data-aos-delay="0">
+        <div class="phone-mockup mx-auto animate-float" 
+             data-template="template1.html" 
+             onclick="openPreview(this)"
+             style="animation-delay: 0s">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <img src="asset/gambar1.jpg" alt="Golden Luxe" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+          </div>
+          <div class="pulse-ring"></div>
+          <div class="click-hint">Klik untuk Preview</div>
+        </div>
+        <p class="text-center mt-8 text-lg font-medium text-gray-700 dark:text-gray-300">Golden Luxe</p>
+      </div>
+
+      <!-- TEMPLATE 2 -->
+      <div class="phone-wrapper" data-aos="fade-up" data-aos-delay="200">
+        <div class="phone-mockup mx-auto animate-float" 
+             data-template="template2.html" 
+             onclick="openPreview(this)"
+             style="animation-delay: 0.5s">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <img src="asset/gambar2.jpg" alt="Clasicc" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+          </div>
+          <div class="pulse-ring"></div>
+          <div class="click-hint">Klik untuk Preview</div>
+        </div>
+        <p class="text-center mt-8 text-lg font-medium text-gray-700 dark:text-gray-300">Clasicc</p>
+      </div>
+
+      <!-- TEMPLATE 3 -->
+      <div class="phone-wrapper" data-aos="fade-up" data-aos-delay="400">
+        <div class="phone-mockup mx-auto animate-float" 
+             data-template="template3.html" 
+             onclick="openPreview(this)"
+             style="animation-delay: 1s">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <img src="asset/gambar3.jpg" alt="Minimal Bloom" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+          </div>
+          <div class="pulse-ring"></div>
+          <div class="click-hint">Klik untuk Preview</div>
+        </div>
+        <p class="text-center mt-8 text-lg font-medium text-gray-700 dark:text-gray-300">Minimal Bloom</p>
+      </div>
+
+    </div>
+  </div>
+</section>
 
   <!-- ====================== FEATURES ====================== -->
   <section id="features" class="py-32 px-6 bg-gradient-to-b from-white to-light dark:from-gray-900 dark:to-gray-800">
@@ -371,23 +407,34 @@
     });
     refreshIcons();
 
-    // PREVIEW MODAL (SUDAH BENAR!)
-    const modal = document.getElementById('preview-modal');
-    const iframe = document.getElementById('preview-iframe');
-    const closeBtn = document.getElementById('close-preview');
+   // PREVIEW MODAL - LOGIKA DIPISAH DARI GAMBAR
+const modal = document.getElementById('preview-modal');
+const iframe = document.getElementById('preview-iframe');
+const closeBtn = document.getElementById('close-preview');
 
-    window.openPreview = id => {
-      iframe.src = `template${id}.html`;  // Cocok dengan template1.html, template2.html, template3.html
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    };
+// Buka preview dari data-template
+window.openPreview = function(element) {
+  const templatePath = element.getAttribute('data-template');
+  if (templatePath) {
+    iframe.src = templatePath;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+};
 
-    closeBtn.onclick = () => {
-      modal.classList.remove('active');
-      setTimeout(() => { iframe.src = ''; document.body.style.overflow = 'auto'; }, 600);
-    };
+// Tutup modal dengan animasi smooth
+closeBtn.onclick = () => {
+  modal.classList.remove('active');
+  setTimeout(() => { 
+    iframe.src = ''; 
+    document.body.style.overflow = 'auto'; 
+  }, 600);
+};
 
-    modal.addEventListener('click', e => { if (e.target === modal) closeBtn.click(); });
+// Klik luar modal
+modal.addEventListener('click', e => { 
+  if (e.target === modal) closeBtn.click(); 
+});
     /* ---------- PRICING ---------- */
     const pricing = [
       { name: "Basic", monthly: 49000, yearly: 47040, features: ["1 Template","Domain .com","Galeri 20 Foto","RSVP Dasar"] },
